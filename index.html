@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #container {
+            border: 2px solid black;
+            width: 500px;
+            height: 600px;
+            margin: auto;
+            display: flex;
+            flex-flow: column;
+        }
+
+        #screen {
+            flex: 1 1 auto;
+            height: 120px;
+            background-color: rgb(221, 221, 226);
+            margin: 10px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #calculation {
+            height: 60px;
+            background-color: rgb(235, 235, 240);
+            display: flex;
+            align-items: center;
+            font-size: 30px;
+            padding: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        #result {
+            background-color: rgb(235, 235, 240);
+            float:right;
+            text-align: right;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: right;
+            font-size: 50px;
+            padding: 10px;
+            font-weight: bold;
+        }
+
+        #buttonsArea {
+            display: flex;
+            flex:1 1 auto;x
+            margin: 10px;
+        }
+
+        .column {
+            flex:1 1 0%;
+        }
+
+        .row {
+            display: flex;
+            flex-flow: row;
+        }
+
+        .button {
+            flex: 1 1 auto;
+            text-align: center;
+            border: 2px solid black;
+            margin: 10px;
+            align-items: center;
+            justify-content: center;
+            display: flex;
+            height: 60px;
+            font-size: 30px;
+            background-color: rgb(219, 217, 213);
+        }
+
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div id="screen">
+            <div id="calculation"></div>
+            <div id="result"></div>
+        </div>
+        <div id="buttonsArea">
+            <div id="col1" class="column">
+                <div id="row1" class="row">
+                    <div id="clearbtn" class="button">CLEAR</div>
+                </div>
+                <div id="row2" class="row">
+                    <div id="sevenbtn" class="button number">7</div>
+                    <div id="eightbtn" class="button number">8</div>
+                </div>
+                <div id="row3" class="row">
+                    <div id="fourbtn" class="button number">4</div>
+                    <div id="fivebtn" class="button number">5</div>
+                </div>
+                <div id="row4" class="row">
+                    <div id="onebtn" class="button number">1</div>
+                    <div id="twobtn" class="button number">2</div>
+                </div>
+                <div id="row5" class="row">
+                    <div id="zerobtn" class="button number">0</div>
+                </div>
+            </div>
+            <div id="col2" class="column">
+                <div id="row1" class="row">
+                    <div id="equalbtn" class="button">=</div>
+                </div>
+                <div id="row2" class="row">
+                    <div id="ninebtn" class="button number">9</div>
+                    <div id="plusbtn" class="button operator">+</div>
+                </div>
+                <div id="row3" class="row">
+                    <div id="sixbtn" class="button number">6</div>
+                    <div id="minusbtn" class="button operator">-</div>
+                </div>
+                <div id="row4" class="row">
+                    <div id="threebtn" class="button number">3</div>
+                    <div id="timesbtn" class="button operator">x</div>
+                </div>
+                <div id="row5" class="row">
+                    <div id="dividebtn" class="button operator">/</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="./script.js" defer></script>
+</body>
+</html>
