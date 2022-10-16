@@ -1,5 +1,19 @@
 "use strict";
 
+let calculationDisplay = document.querySelector("#calculation");
+let resultDisplay = document.querySelector("#result");
+let clearBtn = document.querySelector("#clearbtn");
+let equalBtn = document.querySelector("#equalbtn");
+let numBtns = Array.from(document.querySelectorAll(".number"));
+let opBtns = Array.from(document.querySelectorAll(".operator"));
+let lastOperand = 0;
+let runningTotal = 0;
+let lastOperator = "";
+let lastStep = "";
+const numberStep = "number";
+const operatorStep = "operator";
+const equalStep = "equal";
+
 function add(a, b) {
     if (typeof a !== "number" || typeof b !== "number") {
         return undefined;
@@ -49,73 +63,116 @@ function operate(operator, a, b) {
         case '/':
             return divide(a,b);
             break;
+        case '\u00F7':
+            return divide(a,b);
+            break;
         default:
             return undefined;
     }
 }
 
-function resetCalc () {
-    calc = "";
-    result = null;
+function resetCalc() {
+    lastOperand = 0;
+    runningTotal = 0;
     lastOperator = "";
+    lastStep = "";
+    calculationDisplay.textContent = "";
+    resultDisplay.textContent = "0";
 }
 
-let calculationDisplay = document.querySelector("#calculation");
-let resultDisplay = document.querySelector("#result");
-let clearBtn = document.querySelector("#clearbtn");
-let equalBtn = document.querySelector("#equalbtn");
-let numBtns = Array.from(document.querySelectorAll(".number"));
-let opBtns = Array.from(document.querySelectorAll(".operator"));
-let calc = "";
-let result = null;
-let lastOperator = "";
-let isFinished = false;
-
-clearBtn.addEventListener("click", () => {
-    calculationDisplay.textContent = "";
-    resultDisplay.textContent = "";
-    resetCalc();
-})
-equalBtn.addEventListener("click", () => {
-    if (lastOperator === "") {
-        result = parseInt(calc);
-    } else {
-        result = operate(lastOperator,result,parseInt(calc) || 0);
+function addNum(number) {
+    switch (lastStep) {
+        case "":
+            resultDisplay.textContent = number;
+            break;
+        case numberStep:
+            resultDisplay.textContent += number;
+            break;
+        case operatorStep:
+            resultDisplay.textContent = number;
+            break;
+        case equalStep:
+            resultDisplay.textContent = number;
+            break;
+        default:
+            resultDisplay.textContent = "ERROR!";
     }
-    if (result) {
-        resultDisplay.textContent = result;
-    } else {
-        resultDisplay.textContent = "ERROR!"
+    lastStep = numberStep;
+}
+
+function checkOperator(operator) {
+    const operators = ["+", "-", "*", "x", "/", "\u00F7"];
+    return (operators.includes(operator));
+}
+
+function calculate(operator) {
+    
+    if (!checkOperator(operator)) return;
+
+    switch (lastStep) {
+        case "":
+            calculationDisplay.textContent = `0 ${operator}`;
+            lastOperator = operator;
+            break;
+        case numberStep:
+            lastOperand = parseInt(resultDisplay.textContent);
+            if (lastOperator === "") {
+                runningTotal = lastOperand;
+            } else {
+                runningTotal = operate(operator, runningTotal, lastOperand);
+            }
+            lastOperator = operator; 
+            calculationDisplay.textContent = `${runningTotal} ${operator}`;
+            resultDisplay.textContent = runningTotal;
+            break;
+        case operatorStep:
+            lastOperator = operator;
+            calculationDisplay.textContent = `${runningTotal} ${operator}`;
+            break;
+        case equalStep:
+            lastOperator = operator;
+            calculationDisplay.textContent = `${runningTotal} ${operator}`;
+            break;
+        default:
+            resultDisplay.textContent = "ERROR!";
     }
     
-    resetCalc();
-    isFinished = true;
-})
+    lastStep = operatorStep;
+}
+
+function finishCalculation() {
+    
+    switch (lastStep) {
+        case "":
+            return;
+        case numberStep:
+            lastOperand = parseInt(resultDisplay.textContent);
+            runningTotal = operate(lastOperator, runningTotal, lastOperand);
+            calculationDisplay.textContent += ` ${lastOperand} =`;
+            resultDisplay.textContent = runningTotal;
+            break;
+        case operatorStep:
+            break;
+        case equalStep:
+            break;
+        default:
+            resultDisplay.textContent = "ERROR!";
+    }
+    lastStep = equalStep;
+    
+}
+
+clearBtn.addEventListener("click", resetCalc);
 
 numBtns.forEach((numBtn) => {
-    numBtn.addEventListener("click", () => {
-        if (isFinished) {
-            calculationDisplay.textContent = "";
-            isFinished = false;
-        }
-        calculationDisplay.textContent += numBtn.textContent;
-        calc += numBtn.textContent;
-    });
+    numBtn.addEventListener("click", () => addNum(numBtn.textContent))
 });
+
 opBtns.forEach((opBtn) => {
     opBtn.addEventListener("click", () => {
-        if (isFinished) {
-            calculationDisplay.textContent = "";
-            isFinished = false;
-        }
-        calculationDisplay.textContent += ` ${opBtn.textContent} `;
-        if (lastOperator === "") {
-            result = (parseInt(calc) || 0);
-        } else {        
-            result = operate(lastOperator,result,parseInt(calc) || 0);
-        }
-        
-        lastOperator = opBtn.textContent;
-        calc = "";
-    })
+        calculate(opBtn.textContent);
+    });
 });
+
+equalBtn.addEventListener("click", finishCalculation);
+
