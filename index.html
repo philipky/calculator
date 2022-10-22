@@ -31,9 +31,7 @@
             align-items: center;
             font-size: 30px;
             padding: 5px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            overflow: auto;
         }
 
         #result {
@@ -47,6 +45,7 @@
             font-size: 50px;
             padding: 10px;
             font-weight: bold;
+            overflow: auto;
         }
 
         #buttonsArea {
@@ -104,10 +103,12 @@
                 </div>
                 <div id="row5" class="row">
                     <div id="zerobtn" class="button number">0</div>
+                    <div id="dotbtn" class="button dot">.</div>
                 </div>
             </div>
             <div id="col2" class="column">
                 <div id="row1" class="row">
+                    <div id="backspacebtn" class="button">Backspace</div>
                     <div id="equalbtn" class="button">=</div>
                 </div>
                 <div id="row2" class="row">
